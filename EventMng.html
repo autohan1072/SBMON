@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+    <head>
+        <title>SAMBO MONITORING</title>
+        <meta charset="utf-8">
+        <style>
+              body {
+                  margin: 0px;
+              }
+              h1 {
+                  font-size: 45px;
+                  text-align: center;
+                  /*border-bottom: 1px solid gray;*/
+                  width: 1200px;
+                  margin: 0px;
+                  padding: 20px;
+                }
+              ul {
+                  border-right: 1px solid gray;
+                  width: 100px;
+                  margin: 0px;
+                  padding: 20px;
+              }
+              #grid {
+                  border-top: 1px solid gray;
+                  display: grid;
+                  grid-template-columns: 150px 1fr;
+              }
+              .btn-group .button {
+                background-color: #4CAF50; /* Green */
+                border: 1px solid green;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+                float: left;
+                width: 25%;
+              }
+
+              .btn-group .button:not(:last-child) {
+                border-right: none; /* Prevent double borders */
+              }
+
+              .btn-group .button:hover {
+                background-color: #3e8e41;
+              }
+        </style>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <!-- Table Chart -->
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['table']});
+          google.charts.setOnLoadCallback(drawTable);
+
+          function drawTable() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', '발생시간');
+            data.addColumn('string', 'Source');
+            data.addColumn('string', 'Description');
+            data.addColumn('string', 'Destination');
+            data.addColumn('string', 'Status');
+            data.addRows([
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 1', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 2', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 3', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 4', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 5', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 6', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 7', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 8', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 9', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 10', '에러 #1'],
+              ['2019.01.20 18:30:01',  '펌프', '펌프 압력 에러 001', '데이터 11', '에러 #1']
+            ]);
+
+            var table = new google.visualization.Table(document.getElementById('table_div_Event'));
+
+            table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+          }
+        </script>
+    </head>
+    <body>
+        <table class="columns">
+            <tr>
+              <td><img src="images/Sambo-Logo_WJ3_web-200x66.png" alt="My Image" width="200" height="66"></td>
+              <td><h1>PUMPMON</h1></td>
+            </tr>
+        </table>
+        <div id="grid">
+          <ul>
+              <li>Pump #1</li>
+              <li>Pump #2</li>
+              <li>Pump #3</li>
+              <li>Pump #4</li>
+          </ul>
+          <div>
+              <div class="btn-group">
+                <button class="button"><a href="index.html">Overview</a></button>
+                <button class="button"><a href="PrdtMon.html">Product Monitoring</a></button>
+                <button class="button"><a href="PartMng.php">Part Management</a></button>
+                <button class="button"><a href="EventMng.html">Event Management</a></button>
+              </div>
+              <table class="columns">
+                  <tr>
+                    <td><div id="EventTitle_div" style="border: 1px solid #ccc; background-color:DodgerBlue; color:white; width: 1368px; height: 28px; text-align: center;">Event Management</div></td>
+                  </tr>
+              </table>
+              <div id="table_div_Event" style="width: 1375px; height: 500px;"></div>
+          </div>
+        </div>
+    </body>
+</html>

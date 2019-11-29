@@ -1,0 +1,496 @@
+<!doctype html>
+<html>
+    <head>
+        <title>SAMBO MONITORING</title>
+        <meta charset="utf-8">
+        <style>
+              body {
+                  margin: 0px;
+              }
+              h1 {
+                  font-size: 45px;
+                  text-align: center;
+                  /*border-bottom: 1px solid gray;*/
+                  width: 1200px;
+                  margin: 0px;
+                  padding: 20px;
+                }
+              ul {
+                  border-right: 1px solid gray;
+                  width: 100px;
+                  margin: 0px;
+                  padding: 20px;
+              }
+              #grid {
+                  border-top: 1px solid gray;
+                  display: grid;
+                  grid-template-columns: 150px 1fr;
+              }
+              .btn-group .button {
+                background-color: #4CAF50; /* Green */
+                border: 1px solid green;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+                float: left;
+                width: 25%;
+              }
+
+              .btn-group .button:not(:last-child) {
+                border-right: none; /* Prevent double borders */
+              }
+
+              .btn-group .button:hover {
+                background-color: #3e8e41;
+              }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <!-- Gauge Chart for pumpgauge_div-->
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['gauge']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+
+            var pumpgauge_data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Pump RPM', 80],
+              ['Pressure', 55],
+              ['Flow', 68]
+            ]);
+
+            var pumpgauge_options = {
+              width: 600, height: 200,
+              redFrom: 90, redTo: 100,
+              yellowFrom:75, yellowTo: 90,
+              minorTicks: 5
+            };
+
+            var pumpgauge_chart = new google.visualization.Gauge(document.getElementById('pumpgauge_div'));
+
+            pumpgauge_chart.draw(pumpgauge_data, pumpgauge_options);
+
+            var pumpLine_data = google.visualization.arrayToDataTable([
+              ['Time', 'Pressure', 'Flow'],
+              ['1000',  1000,      400],
+              ['2000',  1170,      460],
+              ['3000',  660,       1120],
+              ['4000',  1170,      460],
+              ['5000',  660,       1120],
+              ['6000',  1170,      460],
+              ['7000',  660,       1120],
+              ['8000',  1170,      460],
+              ['9000',  660,       1120],
+              ['10000',  1030,      540]
+            ]);
+
+            var pumpLine_options = {
+              width: 750, height: 200,
+              title: 'Pump Pressure & Flow',
+              curveType: 'function',
+              legend: { position: 'bottom' }
+            };
+
+            var pumpLine_chart = new google.visualization.LineChart(document.getElementById('pumpLine_div'));
+
+            pumpLine_chart.draw(pumpLine_data, pumpLine_options);
+
+            var engingaue_data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Engine RPM', 80],
+              ['Temprature', 55],
+              ['FUEL', 68]
+            ]);
+
+            var engingaue_options = {
+              width: 600, height: 200,
+              redFrom: 90, redTo: 100,
+              yellowFrom:75, yellowTo: 90,
+              minorTicks: 5
+            };
+
+            var engingaue_chart = new google.visualization.Gauge(document.getElementById('enginegauge_div'));
+
+            engingaue_chart.draw(engingaue_data, engingaue_options);
+
+            var engineLine_data = google.visualization.arrayToDataTable([
+              ['Time', 'Pressure', 'Flow'],
+              ['1000',  1000,      400],
+              ['2000',  1170,      460],
+              ['3000',  660,       1120],
+              ['4000',  1170,      460],
+              ['5000',  660,       1120],
+              ['6000',  1170,      460],
+              ['7000',  660,       1120],
+              ['8000',  1170,      460],
+              ['9000',  660,       1120],
+              ['10000',  1030,      540]
+            ]);
+
+            var engineLine_options = {
+              width: 750, height: 200,
+              title: 'Pump Pressure & Flow',
+              curveType: 'function',
+              legend: { position: 'bottom' }
+            };
+
+            var engineLine_chart = new google.visualization.LineChart(document.getElementById('engineLine_div'));
+
+            engineLine_chart.draw(engineLine_data, engineLine_options);
+
+            setInterval(function() {
+              $.getJSON( "PrdtMonDBRead.php", function( data ) {
+                //alert(data.idPrdtMon);
+                $("div2").empty();
+                $.each(data, function(i, field){
+                  $("div2").append(field + " ");
+                });
+                $("div2").append("</p>");
+                $("div2").append("data.idPrdtMon:"); $("div2").append(data.idPrdtMon + " ");
+                $("div2").append("data.MonDate:"); $("div2").append(data.MonDate + " ");
+                $("div2").append("</p>");
+                $("div2").append("data.PumpRpm:"); $("div2").append(data.PumpRpm + " ");
+                $("div2").append("data.PumpPrs:"); $("div2").append(data.PumpPrs + " ");
+                $("div2").append("data.PumpFlw:"); $("div2").append(data.PumpFlw + " ");
+                $("div2").append("data.PumpRun:"); $("div2").append(data.PumpRun + " ");
+                $("div2").append("data.PumpIdl:"); $("div2").append(data.PumpIdl + " ");
+                $("div2").append("</p>");
+                $("div2").append("data.EngnRpm:"); $("div2").append(data.EngnRpm + " ");
+                $("div2").append("data.EngnTmp:"); $("div2").append(data.EngnTmp + " ");
+                $("div2").append("data.EngnEul:"); $("div2").append(data.EngnEul + " ");
+                $("div2").append("data.EngnRun:"); $("div2").append(data.EngnRun + " ");
+                $("div2").append("data.EngnIdl:"); $("div2").append(data.EngnIdl + " ");
+                $("div2").append("data.EngnStp:"); $("div2").append(data.EngnStp + " ");
+                $("div2").append("</p>");
+                $("div2").append("data.SysmSta:"); $("div2").append(data.SysmSta + " ");
+                $("div2").append("data.ErroCod:"); $("div2").append(data.ErroCod + " ");
+                $("div2").append("</p>");
+                pumpgauge_data.setValue(0, 1, data.PumpRpm);
+                pumpgauge_chart.draw(pumpgauge_data, pumpgauge_options);
+                pumpgauge_data.setValue(1, 1, data.PumpPrs);
+                pumpgauge_chart.draw(pumpgauge_data, pumpgauge_options);
+                pumpgauge_data.setValue(2, 1, data.PumpFlw);
+                pumpgauge_chart.draw(pumpgauge_data, pumpgauge_options);
+                pumpLine_data.removeRow(0);
+                pumpLine_data.addRow(['10000', Number(data.PumpRpm), Number(data.PumpPrs)]);
+                pumpLine_chart.draw(pumpLine_data, pumpLine_options);
+
+                engingaue_data.setValue(0, 1, data.EngnRpm);
+                engingaue_chart.draw(engingaue_data, engingaue_options);
+                engingaue_data.setValue(1, 1, data.EngnTmp);
+                engingaue_chart.draw(engingaue_data, engingaue_options);
+                engingaue_data.setValue(2, 1, data.EngnEul);
+                engingaue_chart.draw(engingaue_data, engingaue_options);
+                engineLine_data.removeRow(0);
+                engineLine_data.addRow(['10000', Number(data.EngnRpm), Number(data.EngnTmp)]);
+                engineLine_chart.draw(engineLine_data, engineLine_options);
+
+                $("#pumpTime1_div").empty();
+                $("#pumpTime1_div").append("Pump 가동 시간 : "); $("#pumpTime1_div").append(data.PumpRun);
+                $("#pumpTime2_div").empty();
+                $("#pumpTime2_div").append("Pump Idle 시간 : "); $("#pumpTime2_div").append(data.PumpIdl);
+
+                $("#engineTime1_div").empty();
+                $("#engineTime1_div").append("Engine 가동 시간 : "); $("#engineTime1_div").append(data.EngnRun);
+                $("#engineTime2_div").empty();
+                $("#engineTime2_div").append("Engine Idle 시간 : "); $("#engineTime2_div").append(data.EngnIdl);
+                $("#engineTime3_div").empty();
+                $("#engineTime3_div").append("Engine 정지 시간 : "); $("#engineTime3_div").append(data.EngnStp);
+
+              });
+            }, 5000);
+          }
+          <!-- Column Chart -->
+          google.charts.load('current', {packages: ['corechart', 'bar']});
+          google.charts.setOnLoadCallback(drawMaterial);
+
+          function drawMaterial() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('timeofday', 'Time of Day');
+                data.addColumn('number', 'Pump Run Time');
+                data.addColumn('number', 'Pump Idle Time');
+                data.addColumn('number', 'Engine Run Time');
+                data.addColumn('number', 'Engine Idle Time');
+                data.addColumn('number', 'Engine Stop Time');
+
+                data.addRows([
+                  [{v: [8, 0, 0], f: '8 am'}, 1, .25, 2, 3, 4],
+                  [{v: [9, 0, 0], f: '9 am'}, 2, .5, 2, 3, 4],
+                  [{v: [10, 0, 0], f:'10 am'}, 3, 1, 2, 3, 4],
+                  [{v: [11, 0, 0], f: '11 am'}, 4, 2.25, 2, 3, 4],
+                  [{v: [12, 0, 0], f: '12 pm'}, 5, 2.25, 2, 3, 4],
+                  [{v: [13, 0, 0], f: '1 pm'}, 6, 3, 2, 3, 4],
+                  [{v: [14, 0, 0], f: '2 pm'}, 7, 4, 2, 3, 4],
+                  [{v: [15, 0, 0], f: '3 pm'}, 8, 5.25, 2, 3, 4],
+                  [{v: [16, 0, 0], f: '4 pm'}, 9, 7.5, 2, 3, 4],
+                  [{v: [17, 0, 0], f: '5 pm'}, 10, 10, 2, 3, 4],
+                ]);
+
+                var options = {
+                  title: 'Run time Monitoring Throughout the Day',
+                  hAxis: {
+                    title: 'Time of Day',
+                    format: 'h:mm a',
+                    viewWindow: {
+                      min: [7, 30, 0],
+                      max: [17, 30, 0]
+                    }
+                  },
+                  vAxis: {
+                    title: 'Rating (scale of 1-10)'
+                  },
+                  legend: { position: 'bottom' }
+                };
+
+                var materialChart = new google.charts.Bar(document.getElementById('columnchart_values'));
+                materialChart.draw(data, options);
+              }
+              /**********************************************************/
+              /*SetInterval Test mode ***********************************/
+              /**********************************************************
+              setInterval(function(){
+                  $.getJSON( "PrdtMonDBRead.php", function( data ) {
+                    //alert(data.idPrdtMon);
+                    $("div2").empty();
+                    $.each(data, function(i, field){
+                      $("div2").append(field + " ");
+                    });
+                    $("div2").append("</p>");
+                    $("div2").append("data.idPrdtMon:"); $("div2").append(data.idPrdtMon + " ");
+                    $("div2").append("data.MonDate:"); $("div2").append(data.MonDate + " ");
+                    $("div2").append("</p>");
+                    $("div2").append("data.PumpRpm:"); $("div2").append(data.PumpRpm + " ");
+                    $("div2").append("data.PumpPrs:"); $("div2").append(data.PumpPrs + " ");
+                    $("div2").append("data.PumpFlw:"); $("div2").append(data.idPrdtMon + " ");
+                    $("div2").append("data.PumpRun:"); $("div2").append(data.PumpRun + " ");
+                    $("div2").append("data.PumpIdl:"); $("div2").append(data.PumpIdl + " ");
+                    $("div2").append("</p>");
+                    $("div2").append("data.EngnRpm:"); $("div2").append(data.EngnRpm + " ");
+                    $("div2").append("data.EngnTmp:"); $("div2").append(data.EngnTmp + " ");
+                    $("div2").append("data.EngnEul:"); $("div2").append(data.EngnEul + " ");
+                    $("div2").append("data.EngnRun:"); $("div2").append(data.EngnRun + " ");
+                    $("div2").append("data.EngnIdl:"); $("div2").append(data.EngnIdl + " ");
+                    $("div2").append("data.EngnStp:"); $("div2").append(data.EngnStp + " ");
+                    $("div2").append("</p>");
+                  });
+              }, 5000);
+              /**********************************************************/
+          </script>
+    </head>
+    <body>
+        <table class="columns">
+            <tr>
+              <td><img src="images/Sambo-Logo_WJ3_web-200x66.png" alt="My Image" width="200" height="66"></td>
+              <td><h1>PUMPMON</h1></td>
+            </tr>
+        </table>
+        <div id="grid">
+          <ul>
+              <li>Pump #1</li>
+              <li>Pump #2</li>
+              <li>Pump #3</li>
+              <li>Pump #4</li>
+          </ul>
+          <div>
+              <div class="btn-group">
+                <button class="button"><a href="index.html">Overview</a></button>
+                <button class="button"><a href="PrdtMon.html">Product Monitoring</a></button>
+                <button class="button"><a href="PartMng.php">Part Management</a></button>
+                <button class="button"><a href="EventMng.html">Event Management</a></button>
+              </div>
+              <!--Pump Monitoring Start --------------------------------------->
+              <table class="columns">
+                  <tr>
+                    <td><div id="pumpTitle_div" style="border: 1px solid #ccc; background-color:DodgerBlue; color:white; width: 1357px; height: 28px; text-align: center;">Pump Monitoring</div></td>
+                  </tr>
+              </table>
+              <table class="columns">
+                  <tr>
+                    <td><div id="pumpgauge_div" style="border: 1px solid #ccc"></div></td>
+                    <td><div id="pumpLine_div" style="border: 1px solid #ccc"></div></td>
+                  </tr>
+              </table>
+              <table class="columns">
+                  <tr>
+                    <td><div id="pumpTime1_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 677px; height: 28px; text-align: center;">Pump 가동 시간 : 1000</div></td>
+                    <td><div id="pumpTime2_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 676px; height: 28px; text-align: center;">Pump Idle 시간 : 1000</div></td>
+                  </tr>
+              </table>
+              <!--Pump Monitoring End ----------------------------------------->
+              <!--Engine Monitoring Start ------------------------------------->
+              <table class="columns">
+                  <tr>
+                    <td><div id="engineTitle_div" style="border: 1px solid #ccc; background-color:DodgerBlue; color:white; width: 1357px; height: 28px; text-align: center;">Engine Monitoring</div></td>
+                  </tr>
+              </table>
+              <table class="columns">
+                  <tr>
+                    <td><div id="enginegauge_div" style="border: 1px solid #ccc"></div></td>
+                    <td><div id="engineLine_div" style="border: 1px solid #ccc"></div></td>
+                  </tr>
+              </table>
+              <table class="columns">
+                  <tr>
+                    <td><div id="engineTime1_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 449px; height: 28px; text-align: center;">Engine 가동 시간 : 1000</div></td>
+                    <td><div id="engineTime2_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 449px; height: 28px; text-align: center;">Engine Idle 시간 : 1000</div></td>
+                    <td><div id="engineTime3_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 448px; height: 28px; text-align: center;">Engine 정지 시간 : 1000</div></td>
+                  </tr>
+              </table>
+              <!--Engine Monitoring End --------------------------------------->
+              <!--RunTIme Monitoring Start ------------------------------------->
+              <table class="columns">
+                  <tr>
+                    <td><div id="RunTImeTitle_div" style="border: 1px solid #ccc; background-color:DodgerBlue; color:white; width: 1357px; height: 28px; text-align: center;">RunTIme Monitoring</div></td>
+                  </tr>
+              </table>
+              <div id="columnchart_values" style="width: 1357px; height: 500px;"></div>
+              <!--RunTIme Monitoring End --------------------------------------->
+              <!--------------------------------------------------------------->
+              <!-- Part Mangement Database ------------------------------------>
+              <!--------------------------------------------------------------->
+              <table class="columns">
+                  <tr>
+                    <td>
+                      <div id="partTitle_div" style="border: 1px solid #ccc; background-color:DodgerBlue; color:white; width: 1360px; height: 28px; text-align: center;">
+                        Monitoring DataBase Test
+                      </div>
+                    </td>
+                  </tr>
+              </table>
+              <table class="columns">
+                  <tr>
+                    <td>
+                      <div id="PartDBAdd1_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        PumpRpm
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd2_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        PumpPrs
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd3_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        PumpFlw
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd4_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        PumpRun
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd5_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        PumpIdl
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd6_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        EngnRpm
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd7_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        EngnTmp
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd8_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        EngnEul
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd9_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        EngnRun
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd10_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        EngnIdl
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd11_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        EngnStp
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd12_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        SysmSta
+                      </div>
+                    </td>
+                    <td>
+                      <div id="PartDBAdd13_div" style="border: 1px solid #ccc; background-color:#000000; color:white; width: 100px; height: 28px; text-align: center;">
+                        ErroCod
+                      </div>
+                    </td>
+                  </tr>
+              </table>
+              <form action="PrdtMonDBAdd.php" method = "post">
+                <table class="columns">
+                <tr>
+                  <td>
+                    <input type="text" name="PumpRpm" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="PumpPrs" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="PumpFlw" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="PumpRun" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="PumpIdl" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="EngnRpm" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="EngnTmp" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="EngnEul" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="EngnRun" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="EngnIdl" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="EngnStp" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="SysmSta" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                  <td>
+                    <input type="text" name="ErroCod" style="border: 1px solid #ccc; background-color:#FFFFFF; color:black; width: 100px; height: 28px; text-align: center;"/>
+                  </td>
+                </tr>
+                </table>
+                <input type="hidden">
+                <input type="submit" value = "Monitoring Database Add" style="border: 3px solid #ccc; background-color:#e7e7e7; color:black; width: 100%; height: 35px; text-align: center;">
+              </form>
+              <div2> Please Wait ... </div2>
+              <table class="columns">
+                  <tr>
+                    <td>
+                      <div id="partTitle_div" style="border: 1px solid #ccc; background-color:DodgerBlue; color:white; width: 1360px; height: 28px; text-align: center;">
+
+                      </div>
+                    </td>
+                  </tr>
+              </table>
+              <!--------------------------------------------------------------->
+              </div>
+          </div>
+        </div>
+    </body>
+</html>

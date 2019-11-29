@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+    <head>
+        <title>SAMBO MONITORING</title>
+        <meta charset="utf-8">
+        <style>
+              body {
+                  margin: 0px;
+              }
+              h1 {
+                  font-size: 45px;
+                  text-align: center;
+                  /*border-bottom: 1px solid gray;*/
+                  width: 1200px;
+                  margin: 0px;
+                  padding: 20px;
+                }
+              ul {
+                  border-right: 1px solid gray;
+                  width: 100px;
+                  margin: 0px;
+                  padding: 20px;
+              }
+              #grid {
+                  border-top: 1px solid gray;
+                  display: grid;
+                  grid-template-columns: 150px 1fr;
+              }
+              .btn-group .button {
+                background-color: #4CAF50; /* Green */
+                border: 1px solid green;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+                float: left;
+                width: 25%;
+              }
+
+              .btn-group .button:not(:last-child) {
+                border-right: none; /* Prevent double borders */
+              }
+
+              .btn-group .button:hover {
+                background-color: #3e8e41;
+              }
+        </style>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <!-- Table Chart -->
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['table']});
+          google.charts.setOnLoadCallback(drawTable);
+
+          function drawTable() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Production Station');
+            data.addColumn('string', 'Status');
+            data.addColumn('string', 'Pump Staus');
+            data.addColumn('number', 'Pump RPM');
+            data.addColumn('number', 'Pump Pressure');
+            data.addColumn('number', 'Pump Flow');
+            data.addColumn('number', 'Pump Run Time');
+            data.addColumn('string', 'Engine Staus');
+            data.addColumn('number', 'Engine RPM');
+            data.addColumn('number', 'Engine Temperature');
+            data.addColumn('number', 'Engine Fuel');
+            data.addColumn('number', 'Engine Run Time');
+            data.addColumn('boolean', 'Alert');
+            data.addRows([
+              ['Pump #1', 'Online', 'Run', {v: 1000, f: '1,000 rpm'}, {v: 1000, f: '1,000 bar'}, {v: 10.03, f: '10.03 l/min'}, {v: 1000, f: '1,000 h'},
+                                    'Run', {v: 1000, f: '1,000 rpm'}, {v: 1000, f: '80 도'}, {v: 83, f: '83 %'}, {v: 1000, f: '1,000 h'}, true],
+              ['Pump #2', 'Online', 'Run', {v: 1000, f: '1,000 rpm'}, {v: 1000, f: '1,000 bar'}, {v: 10.03, f: '10.03 l/min'}, {v: 1000, f: '1,000 h'},
+                                    'Run', {v: 1000, f: '1,000 rpm'}, {v: 1000, f: '80 도'}, {v: 83, f: '83 %'}, {v: 1000, f: '1,000 h'}, true],
+              ['Pump #3', 'Online', 'Run', {v: 1000, f: '1,000 rpm'}, {v: 1000, f: '1,000 bar'}, {v: 10.03, f: '10.03 l/min'}, {v: 1000, f: '1,000 h'},
+                                    'Run', {v: 1000, f: '1,000 rpm'}, {v: 1000, f: '80 도'}, {v: 83, f: '83 %'}, {v: 1000, f: '1,000 h'}, true],
+              ['Pump #4', 'Online', 'Run', {v: 1000, f: '1,000 rpm'}, {v: 1000, f: '1,000 bar'}, {v: 10.03, f: '10.03 l/min'}, {v: 1000, f: '1,000 h'},
+                                    'Run', {v: 1000, f: '1,000 rpm'}, {v: 1000, f: '80 도'}, {v: 83, f: '83 %'}, {v: 1000, f: '1,000 h'}, true]
+            ]);
+
+            var table = new google.visualization.Table(document.getElementById('table_div'));
+
+            table.draw(data, {showRowNumber: true, width: '100%', height: '70%'});
+            table.setCell(1, 2, 15, 'Fifteen', {style: 'font-style:bold; font-size:22px;'});
+          }
+        </script>
+    <body>
+        <table class="columns">
+            <tr>
+              <td><img src="images/Sambo-Logo_WJ3_web-200x66.png" alt="My Image" width="200" height="66"></td>
+              <td><h1>PUMPMON</h1></td>
+            </tr>
+        </table>
+
+        <div id="grid">
+            <ul>
+                <li>Pump #1</li>
+                <li>Pump #2</li>
+                <li>Pump #3</li>
+                <li>Pump #4</li>
+            </ul>
+            <div>
+                <div class="btn-group">
+                  <button class="button"><a href="index.html">Overview</a></button>
+                  <button class="button"><a href="PrdtMon.html">Product Monitoring</a></button>
+                  <button class="button"><a href="PartMng.php">Part Management</a></button>
+                  <button class="button"><a href="EventMng.html">Event Management</a></button>
+                </div>
+                <table class="columns">
+                    <tr>
+                      <td><div id="IndexTitle_div" style="border: 1px solid #ccc; background-color:DodgerBlue; color:white; width: 1360px; height: 28px; text-align: center;">Factory Overview</div></td>
+                    </tr>
+                </table>
+                <div id="table_div" style="width: 1360px; height: 500px;"></div>
+            </div>
+        </div>
+    </body>
+</html>
